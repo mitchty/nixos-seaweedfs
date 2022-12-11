@@ -1,24 +1,29 @@
 { lib
 , fetchFromGitHub
-, buildGoModule
+, buildGo118Module
 , testers
 , seaweedfs
 }:
 
-buildGoModule rec {
+buildGo118Module rec {
   pname = "seaweedfs";
-  version = "3.20";
+  version = "3.32";
 
   src = fetchFromGitHub {
     owner = "seaweedfs";
     repo = "seaweedfs";
     rev = version;
-    sha256 = "sha256-t6cYt+ROMivcOv4eTqNt7jkuu1j3EhPsaZZDIddrNnA=";
+    sha256 = "sha256-GMOLlkBfY3ShVojdRrmpMYgoea52kq4aXr/oZj5bJWo=";
   };
 
-  vendorSha256 = "sha256-GeL2I2pTlofbMV4XxC8ieARyMqBxz9/NorwBEQorV88=";
+  vendorSha256 = "sha256-cEzPKx54rssyAytYenIcud3K0f7xuO8WzE8wdMqZipE=";
 
   subPackages = [ "weed" ];
+
+  postInstall = ''
+    install -dm755 $out/sbin
+    ln -sf $out/bin/weed $out/sbin/mount.weed
+  '';
 
   passthru.tests.version =
     testers.testVersion { package = seaweedfs; command = "weed version"; };

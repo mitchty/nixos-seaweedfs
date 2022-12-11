@@ -6,5 +6,6 @@
     ./webdav.nix
     ./s3.nix
     ./iam.nix
+    ./users.nix
   ];
 }

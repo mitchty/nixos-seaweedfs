@@ -2,31 +2,27 @@
 with lib;
 
 let
-  cfg = config.services.seaweedfs.iam;
+  cfg = config.services.seaweedfs.staticUser;
 
 in
 {
   options = {
-    services.seaweedfs.iam = {
-      enable = mkEnableOption "seaweedfs iam server";
+    services.seaweedfs.staticUser = {
+      enable = mkEnableOption "Use a static user+group for seaweed daemons";
     };
   };
   config = mkIf cfg.enable {
-    systemd.services.seaweedfs-iam =
-      {
-        description = "seaweedfs iam";
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          DynamicUser = mkDefault true;
-          PrivateTmp = mkDefault true;
-          CacheDirectory = "seaweedfs-iam";
-          ConfigurationDirectory = "seaweedfs-iam";
-          RuntimeDirectory = "seaweedfs-iam";
-          StateDirectory = "seaweedfs-iam";
-          ExecStart = "${pkgs.seaweedfs}/bin/weed iam";
-          LimitNOFILE = mkDefault 65536;
-          LimitNPROC = mkDefault 65536;
+    users = {
+      groups.weed = {};
+      users = {
+        weed = {
+          isSystemUser = true;
+          description = "seaweedfs daemon user";
+          createHome = false;
+          home = "/dev/null";
+          group = "weed";
         };
       };
+    };
   };
 }

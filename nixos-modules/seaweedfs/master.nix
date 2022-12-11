@@ -133,8 +133,6 @@ in
         type = types.commas;
       };
 
-
-
       settings = mkOption {
         type = types.submodule {
           freeformType = settingsFormat.type;
@@ -236,12 +234,14 @@ in
         description = "seaweedfs master";
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
-          DynamicUser = mkDefault true;
-          PrivateTmp = mkDefault true;
-          CacheDirectory = "seaweedfs-master";
-          ConfigurationDirectory = "seaweedfs-master";
-          RuntimeDirectory = "seaweedfs-master";
-          StateDirectory = "seaweedfs-master";
+          User = "weed";
+          Group = "weed";
+          # DynamicUser = mkDefault true;
+          # PrivateTmp = mkDefault true;
+          # CacheDirectory = "seaweedfs-master";
+          # ConfigurationDirectory = "seaweedfs-master";
+          # RuntimeDirectory = "seaweedfs-master";
+          # StateDirectory = "seaweedfs-master";
           ExecStart = "${pkgs.seaweedfs}/bin/weed master -options=${optionsFile}";
           LimitNOFILE = mkDefault 65536;
           LimitNPROC = mkDefault 65536;
