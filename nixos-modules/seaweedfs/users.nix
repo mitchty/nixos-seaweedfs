@@ -13,7 +13,7 @@ in
   };
   config = mkIf cfg.enable {
     users = {
-      groups.weed = {};
+      groups.weed = { };
       users = {
         weed = {
           isSystemUser = true;

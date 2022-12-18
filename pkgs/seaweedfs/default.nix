@@ -28,6 +28,8 @@ buildGo118Module rec {
   passthru.tests.version =
     testers.testVersion { package = seaweedfs; command = "weed version"; };
 
+  latest = "curl --location --silent 'https://api.github.com/repos/chrislusf/seaweedfs/releases/latest' | jq -r '.tag_name'";
+
   meta = with lib; {
     description = "Simple and highly scalable distributed file system";
     homepage = "https://github.com/chrislusf/seaweedfs";

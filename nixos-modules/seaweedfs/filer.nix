@@ -17,7 +17,9 @@ in
         description = "seaweedfs filer";
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
-          DynamicUser = mkDefault true;
+          User = "weed";
+          Group = "weed";
+          # DynamicUser = mkDefault true;
           PrivateTmp = mkDefault true;
           CacheDirectory = "seaweedfs-filer";
           ConfigurationDirectory = "seaweedfs-filer";
