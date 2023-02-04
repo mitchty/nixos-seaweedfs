@@ -23,6 +23,13 @@ in
     {
       enable = mkEnableOption "seaweed master service";
 
+      openIface = lib.mkOption
+        {
+          type = lib.types.str;
+          example = lib.literalExample "eno1";
+          default = "";
+          description = "interface to open/allow port to firewall for master connections";
+        };
       cpuprofile = makeCliOption {
         description = "cpu profile output file";
         type = types.path;
@@ -96,6 +103,7 @@ in
       port = makeCliOption {
         description = "http listen port (default 9333)";
         type = types.port;
+        default = 9333;
       };
 
       "port.grpc" = makeCliOption {
@@ -215,6 +223,18 @@ in
     };
 
   config = mkIf cfg.enable {
+    # networking.firewall = mkIf (cfg.openIface != "") {
+    #   interfaces = {
+    #     "${cfg.openIface}" = {
+    #       allowedTCPPorts = [ 9333 ];
+    #     };
+    #   };
+    # };
+    networking.firewall = {
+      allowedTCPPorts = [ 9333 19333 ];
+    };
+
+
     environment.etc."seaweedfs/master.toml".source = settingsFormat.generate "seaweedfs-master.toml" cfg.settings;
 
     systemd.services.seaweedfs-master =

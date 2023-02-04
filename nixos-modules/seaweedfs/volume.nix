@@ -48,6 +48,9 @@ in
         '';
       }
     ];
+    networking.firewall = {
+      allowedTCPPorts = [ 8080 18080 ];
+    };
 
     systemd.services.seaweedfs-volume =
       let

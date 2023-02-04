@@ -12,6 +12,10 @@ in
     };
   };
   config = mkIf cfg.enable {
+    networking.firewall = {
+      allowedTCPPorts = [ 7333 ];
+    };
+
     systemd.services.seaweedfs-webdav =
       {
         description = "seaweedfs webdav";

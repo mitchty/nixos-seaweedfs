@@ -37,10 +37,10 @@
         packages = {
           seaweedfs = pkgs.callPackage ./pkgs/seaweedfs { };
         } // flake-utils.lib.flattenTree {
-#        default = pkgs.stdenv.mkDerivation {
-#          name = "seaweedfs";
-#          buildInputs = [ packages.seaweedfs ];
-#        };
+          #        default = pkgs.stdenv.mkDerivation {
+          #          name = "seaweedfs";
+          #          buildInputs = [ packages.seaweedfs ];
+          #        };
         };
       })
     // {
